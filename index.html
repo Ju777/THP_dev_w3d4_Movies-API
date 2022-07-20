@@ -31,25 +31,34 @@
     <body>
         <h1 class="text-dark">MOVIES API</h1>
         
+        <div id="main-container" class="w-50 mx-auto">
 
+            <div id="search-feature-container" class="d-flex p-1 justify-content-center">
 
-        <div id="main-container" class="w-75 m-auto mt-5">
+                <div id="search-button" class="p-2">
+                    <button class="btn-warning fs-6">CLAP ! &#127916;</button>
+                </div>
 
-            <div id="search-button" class="mx-5">
-                <button class="btn-warning p-2 fs-6">CLAP ! &#127916;</button>
+                <div id="search-bar-container" class="p-2">
+                    <input id="search-input" type="search" placeholder="enter movies keywords" size="50vw" class="p-2"/>
+                </div>
+
             </div>
 
-           <div id="search-feature-container" class="d-flex p-1 mx-auto">
-                <div id="search-bar-container" class="p-2">
-                    <input id="search-input" type="search" placeholder="enter movies keywords" size="80%"/>
+            <div id="modal" class="modal">
+
+                <div id="modal-poster" class="modal-poster">
                 </div>
-           </div>
+
+                <div id="modal-content" class="modal-content">
+                </div>
+            </div>
+
+            <div id="data-container">
+            </div>
+
         </div>
 
-        <div id="data-container" class="w-75 m-auto mt-5">
-
-
-        </div>
     </body>
     <script src="./javascript/main.js"></script>
 </html>

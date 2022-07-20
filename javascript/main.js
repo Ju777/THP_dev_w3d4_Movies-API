@@ -1,13 +1,10 @@
 const searchButton = document.getElementById('search-button');
 const searchInput = document.getElementById('search-input');
 
-// var url = 'http://www.omdbapi.com/?s=prout&apikey=1903931a';
-
 try {
     getData = async (url) => {
         const response = await fetch(url);
         const data = await response.json();
-        console.log(data);
         return data;
     }
 } catch(error) {
@@ -17,43 +14,106 @@ try {
 getInput = () => {
     
     searchButton.addEventListener('click', async () => {
-        console.clear();
-        console.log(searchInput.value);
-        let url = inputToURL(searchInput.value);
-        let data = await getData(url);
+        //Log de vérif
+        // console.log(searchInput.value);
+        let userInput = searchInput.value;
+        let url = inputToURL(userInput);
+        data = await getData(url);
+
         displayResults(data);
+
     });
+
 }
 
 inputToURL = (input) => {
-    console.log('http://www.omdbapi.com/?s=' + input + '&apikey=1903931a')
     return 'http://www.omdbapi.com/?s=' + input + '&apikey=1903931a'
 }
 
+idToURL = (id) => {
+    return 'http://www.omdbapi.com/?i=' + id + '&apikey=1903931a'
+}
+
 displayResults = (data) => {
-    // log de vérif
-    // console.log("on est dans displayResults, la paramètre est");
-    // console.log(data.Search[0]);
-    let results = data.Search;
+    let moviesList = data.Search;
     let html = '';
 
-    results.map(movie => {
-        let htmlSegment =
-            `
-            <div>${movie.Title}</div>
-            `
-        html += htmlSegment;
+    // Affichage de la liste des fims correspondant à l'input de l'utilisateur
+    moviesList.map(movie => {
+        // On récupère la div dans laquelle on va mettre chaque ligne = chaque film
+        const dataContainer = document.getElementById('data-container');
+
+        // On crée la div qui sera une nouvelle ligne
+        const row = document.createElement('div');
+        dataContainer.appendChild(row);
+        row.classList.add('row');
+        
+        // On crée la div qui contiendra l'image miniature du film
+        const poster = document.createElement('div');
+        poster.classList.add('poster');
+        row.appendChild(poster);
+        poster.innerHTML = `<img src="${movie.Poster}" alt="poster of ${movie.Title}" class="img-miniature"/>`
+
+        // On crée la div qui contiendra les informations du film
+        const content = document.createElement('div');
+        content.classList.add('content');
+        row.appendChild(content);
+        content.innerHTML = `<p><span class="badge text-warning bg-dark">${movie.Year}</span> ${movie.Title}</p>`;
+
+        // On crée le bouton qui affichera la modal du film
+        const button = document.createElement('button');
+        button.setAttribute('id', movie.imdbID);
+        button.classList.add("btn-danger", "rounded-pill", "text-light", "p-1");
+        button.innerHTML = "read more";
+        content.appendChild(button);
+        button.addEventListener('click', () => {
+            getMovieData(movie.imdbID);
+        });
+
     });
+}
 
-    const dataContainer = document.getElementById('data-container');
-    dataContainer.innerHTML = html;
+getMovieData = async (movieID) => {
+    console.log(movieID);
+    // On fetch d'abord les données du film sélectionné
+    let url = idToURL(movieID);
+    let fetching = await getData(url);
+    console.log(fetching);
+    displayModal(fetching);
+}
 
+displayModal = (fetching) => {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'grid';
+
+    const modalPoster = document.getElementById('modal-poster');
+    modalPoster.innerHTML =  `
+                        <img src="${fetching.Poster} alt="affiche du film" class="modal-img"/>
+                        `;
+
+    const modalContent = document.getElementById('modal-content');
+    modalContent.innerHTML = `
+                        <h1><span class="badge text-warning bg-dark">${fetching.Year}</span> ${fetching.Title}</h1>
+                        <p>${fetching.Plot}</p>
+                        `;
+                        
+    let closingButton = document.createElement('button');
+    // closingButton.setAttribute('id', 'closing-button');
+    // closingButton = document.getElementById('closing-button');
+    modalContent.appendChild(closingButton);
+    closingButton.classList.add("btn-warning");
+    closingButton.innerHTML = "close";
+    
+    closingButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
 
 }
 
 perform = () => {
-  
+    console.clear();
     getInput();
+    
 }
 
 perform();

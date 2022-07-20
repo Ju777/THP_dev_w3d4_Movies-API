@@ -1,18 +1,101 @@
-input {
-    border:none;
+.img-miniature{
+    max-height: 100%;
 }
 
+
+input {
+    border-radius: 30px;
+    border: 1px solid black;
+}
+
+
 input:focus {
-    outline:none;
+    outline: none;
 }
 
 #main-container{
-    border: 0px solid rgb(187, 187, 187);
-    background-color: rgb(255, 255, 255);
+    /* border : 5px solid black; */
     display: grid;
-    grid-template-columns: 1fr 3fr;
-    /* margin-bottom : 10px; */
-    border-radius: 30px;
-    box-shadow: 5px 5px 5px rgb(112, 112, 112);
+    grid-template-columns: 1fr;
 }
 
+#search-feature-container {
+    /* border : 5px solid rgb(255, 1, 1); */
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
+    
+}
+
+#data-container{
+    /* border : 5px solid rgb(255, 157, 0); */
+
+}
+
+.row {
+    /* border :  5px solid rgb(16, 255, 171); */
+    border : 1px solid rgb(79, 79, 79);
+    display : grid ;
+    grid-template-columns: 1fr 3fr;
+    margin-bottom: 30px;
+    border-radius: 30px;
+    height: 30vh;
+    box-shadow: 5px 5px 5px rgb(176, 176, 176);   
+}
+
+.poster {
+    /* border : 5px solid rgb(0, 21, 255); */
+    height: 30vh;
+    padding : 20px;
+    margin:auto;
+
+}
+
+.content {
+    /* border : 5px solid rgb(255, 0, 221); */
+    height: 30vh;
+    padding : 20px;
+    margin:auto;
+}
+
+.modal {
+    /* border : 3px solid rgb(189, 0, 79); */
+    position: fixed;
+    display: none;
+    grid-template-columns: 1fr 3fr;
+    width : 75vw;
+    height : 50vh;
+    margin-top: 25vh;
+    margin-left: 12.5vw;
+    border-radius: 30px;
+    box-shadow: 5px 5px 5px rgb(62, 62, 62);   
+    background-color: rgb(255, 255, 255);
+}
+
+.modal-poster{
+    /* border : 3px solid rgb(1, 198, 113); */
+    display: flex;
+    justify-content: center;
+    /* width: 50%; */
+    height: 50vh;
+    /* background-color: rgb(209, 59, 59); */
+    padding: 25px;
+}
+
+.modal-content{
+    /* border : 3px solid rgb(160, 79, 231); */
+    /* display: inherit; */
+    display: flex;
+    justify-content: top;
+    height: 50vh;
+    /* width: 50%; */
+    /* background-color: rgb(120, 39, 4); */
+    padding: 25px;
+    font-size: 0.80em;
+}
+
+.modal-img{
+    max-height: 100%;
+}
