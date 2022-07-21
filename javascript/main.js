@@ -1,5 +1,12 @@
 const searchButton = document.getElementById('search-button');
 const searchInput = document.getElementById('search-input');
+const dataContainer = document.getElementById('data-container');
+
+    // Variables de l'observateur d'intersection
+    var numSteps = 100.0;
+    var boxElement;
+    // FIN
+
 
 try {
     getData = async (url) => {
@@ -16,6 +23,7 @@ getInput = () => {
     searchButton.addEventListener('click', async () => {
         //Log de vérif
         // console.log(searchInput.value);
+        dataContainer.innerHTML = '';
         let userInput = searchInput.value;
         let url = inputToURL(userInput);
         data = await getData(url);
@@ -39,14 +47,13 @@ displayResults = (data) => {
     let html = '';
 
     // Affichage de la liste des fims correspondant à l'input de l'utilisateur
-    moviesList.map(movie => {
-        // On récupère la div dans laquelle on va mettre chaque ligne = chaque film
-        const dataContainer = document.getElementById('data-container');
+    moviesList.map(movie => {     
 
         // On crée la div qui sera une nouvelle ligne
         const row = document.createElement('div');
-        dataContainer.appendChild(row);
+        row.setAttribute('id', `row-${movie.imdbID}`);
         row.classList.add('row');
+        dataContainer.appendChild(row);  
         
         // On crée la div qui contiendra l'image miniature du film
         const poster = document.createElement('div');
@@ -62,7 +69,7 @@ displayResults = (data) => {
 
         // On crée le bouton qui affichera la modal du film
         const button = document.createElement('button');
-        button.setAttribute('id', movie.imdbID);
+        button.setAttribute('id', `button-${movie.imdbID}`);
         button.classList.add("btn-danger", "rounded-pill", "text-light", "p-1");
         button.innerHTML = "read more";
         content.appendChild(button);
@@ -70,6 +77,13 @@ displayResults = (data) => {
             getMovieData(movie.imdbID);
         });
 
+        // Application de l'observateur d'intersection à la ligne créée
+        window.addEventListener("scroll", function(event) {
+        // boxElement = document.querySelector("#box"); ORIGINAL
+        boxElement = document.getElementById(`row-${movie.imdbID}`);
+    
+        createObserver();
+        }, false);
     });
 }
 
@@ -83,6 +97,7 @@ getMovieData = async (movieID) => {
 }
 
 displayModal = (fetching) => {
+    // Création de chaque élément HTML de la modal
     const modal = document.getElementById('modal');
     modal.style.display = 'grid';
 
@@ -96,10 +111,10 @@ displayModal = (fetching) => {
                         <h1><span class="badge text-warning bg-dark">${fetching.Year}</span> ${fetching.Title}</h1>
                         <p>${fetching.Plot}</p>
                         `;
-                        
+    // FIN
+
+    // Faire un bouton pour fermer la modal
     let closingButton = document.createElement('button');
-    // closingButton.setAttribute('id', 'closing-button');
-    // closingButton = document.getElementById('closing-button');
     modalContent.appendChild(closingButton);
     closingButton.classList.add("btn-warning");
     closingButton.innerHTML = "close";
@@ -107,13 +122,54 @@ displayModal = (fetching) => {
     closingButton.addEventListener('click', () => {
         modal.style.display = 'none';
     });
+    // FIN
 
 }
+
+// L'observateur d'intersection
+createObserver = () => {
+    var observer;
+  
+    var options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: buildThresholdList()
+    };
+  
+    observer = new IntersectionObserver(handleIntersect, options);
+    observer.observe(boxElement);
+}
+
+buildThresholdList = () => {
+    var thresholds = [];
+  
+    for (var i=1.0; i<=numSteps; i++) {
+      var ratio = i/numSteps;
+      thresholds.push(ratio);
+    }
+  
+    thresholds.push(0);
+    return thresholds;
+}
+
+handleIntersect = (entries, observer) =>  {
+    entries.forEach(function(entry) {
+        if(entry.intersectionRatio > 0.75) {
+            entry.target.style.opacity = entry.intersectionRatio;
+        }
+        else {
+            entry.target.style.opacity = 0;
+        }
+    });
+}
+
+// FIN
 
 perform = () => {
     console.clear();
     getInput();
     
+
 }
 
 perform();
