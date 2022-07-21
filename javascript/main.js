@@ -35,11 +35,12 @@ getInput = () => {
 }
 
 inputToURL = (input) => {
-    return 'http://www.omdbapi.com/?s=' + input + '&apikey=1903931a'
+    console.log('https://www.omdbapi.com/?s=' + input + '&apikey=1903931a')
+    return 'https://www.omdbapi.com/?s=' + input + '&apikey=1903931a'
 }
 
 idToURL = (id) => {
-    return 'http://www.omdbapi.com/?i=' + id + '&apikey=1903931a'
+    return 'https://www.omdbapi.com/?i=' + id + '&apikey=1903931a'
 }
 
 displayResults = (data) => {
