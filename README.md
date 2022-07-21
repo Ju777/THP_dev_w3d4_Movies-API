@@ -6,3 +6,6 @@
     - Clone this repo and open index.html with your web browser.
     - Enter some keywords related to a movie you'd like to display.
     - The design is simple. Will you notice the lazy loading effect ?
+
+#### You also can ...
+... check my work at https://ju777.github.io/ but notice that this is a temporary page which will change or be removed in a while ...
